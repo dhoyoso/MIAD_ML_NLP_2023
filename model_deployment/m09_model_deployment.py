@@ -5,40 +5,19 @@ import joblib
 import sys
 import os
 
-def predict_proba(url):
+def predict(year, mileage, state, make, model):
 
-    clf = joblib.load(os.path.dirname(__file__) + '/phishing_clf.pkl') 
+    modelo = joblib.load('C:/Users/dhoyoso/Documents/Maestria UNIANDES/Cursos/MACHINE LEARNING Y PROCESAMIENTO LENGUAJE NATURAL/MIAD_ML_NLP_2023/model_deployment/model.pkl') 
+    encoder = joblib.load('C:/Users/dhoyoso/Documents/Maestria UNIANDES/Cursos/MACHINE LEARNING Y PROCESAMIENTO LENGUAJE NATURAL/MIAD_ML_NLP_2023/model_deployment/encoder.pkl') 
 
-    url_ = pd.DataFrame([url], columns=['url'])
+    entry = pd.DataFrame([[year, mileage, state, make, model]], columns=['Year','Mileage','State','Make','Model'])
+    
+    entry = entry.astype({ 'Year':int, 'Mileage':int, 'State':str, 'Make':str, 'Model':str})
   
-    # Create features
-    keywords = ['https', 'login', '.php', '.html', '@', 'sign']
-    for keyword in keywords:
-        url_['keyword_' + keyword] = url_.url.str.contains(keyword).astype(int)
-
-    url_['lenght'] = url_.url.str.len() - 2
-    domain = url_.url.str.split('/', expand=True).iloc[:, 2]
-    url_['lenght_domain'] = domain.str.len()
-    url_['isIP'] = (url_.url.str.replace('.', '') * 1).str.isnumeric().astype(int)
-    url_['count_com'] = url_.url.str.count('com')
+    # Pre process features
+    entry = encoder.transform(entry)
 
     # Make prediction
-    p1 = clf.predict_proba(url_.drop('url', axis=1))[0,1]
-
-    return p1
-
-
-if __name__ == "__main__":
+    p1 = modelo.predict(entry)
     
-    if len(sys.argv) == 1:
-        print('Please add an URL')
-        
-    else:
-
-        url = sys.argv[1]
-
-        p1 = predict_proba(url)
-        
-        print(url)
-        print('Probability of Phishing: ', p1)
-        
+    return p1[0]
