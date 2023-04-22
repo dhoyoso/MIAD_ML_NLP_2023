@@ -7,8 +7,8 @@ import os
 
 def predict(year, mileage, state, make, model):
 
-    modelo = joblib.load('C:/Users/dhoyoso/Documents/Maestria UNIANDES/Cursos/MACHINE LEARNING Y PROCESAMIENTO LENGUAJE NATURAL/MIAD_ML_NLP_2023/model_deployment/model.pkl') 
-    encoder = joblib.load('C:/Users/dhoyoso/Documents/Maestria UNIANDES/Cursos/MACHINE LEARNING Y PROCESAMIENTO LENGUAJE NATURAL/MIAD_ML_NLP_2023/model_deployment/encoder.pkl') 
+    modelo = joblib.load(os.path.dirname(__file__) +'/model.pkl') 
+    encoder = joblib.load(os.path.dirname(__file__) +'/encoder.pkl') 
 
     entry = pd.DataFrame([[year, mileage, state, make, model]], columns=['Year','Mileage','State','Make','Model'])
     
