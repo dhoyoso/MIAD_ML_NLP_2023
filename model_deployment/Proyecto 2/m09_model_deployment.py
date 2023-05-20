@@ -49,11 +49,11 @@ def pre_process(entry):
 
     return entry['plot'][0]
 
-def predict(year, title, plot, rating):
+def predict(year, title, plot):
 
     # Cargar entrada
-    entry = pd.DataFrame([[year, title, plot, rating]], columns=['year','title','plot','rating'])
-    entry = entry.astype({'year':int, 'title':str, 'plot':str, 'rating':float})
+    entry = pd.DataFrame([[year, title, plot]], columns=['year','title','plot'])
+    entry = entry.astype({'year':int, 'title':str, 'plot':str})
   
     # Pre process entrada
     text = pre_process(entry)

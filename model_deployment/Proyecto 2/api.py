@@ -40,13 +40,6 @@ parser.add_argument(
     help="Movie's plot", 
     location='args')
 
-parser.add_argument(
-    'rating', 
-    type=float, 
-    required=True, 
-    help="Movie's rating", 
-    location='args')
-
 nested_fields = api.model('NestedFields', {
     'P_Action': fields.Float,
     'P_Adventure': fields.Float,
@@ -90,7 +83,7 @@ class MovieGenreApi(Resource):
         args = parser.parse_args()
         
         return {
-         "movie_genre_result": predict(args['year'], args['title'], args['plot'], args['rating'])
+         "movie_genre_result": predict(args['year'], args['title'], args['plot'])
         }, 200
     
 
