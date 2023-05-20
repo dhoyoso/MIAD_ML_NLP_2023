@@ -47,7 +47,7 @@ parser.add_argument(
     help="Movie's rating", 
     location='args')
 
-nested_fields = {
+nested_fields = api.model('NestedFields', {
     'P_Action': fields.Float,
     'P_Adventure': fields.Float,
     'P_Animation': fields.Float,
@@ -73,7 +73,7 @@ nested_fields = {
     'P_War': fields.Float,
     'P_Western': fields.Float,
     'PRED_CLASSES': fields.String
-}
+})
 
 # Definición del tipo y estructura de los datos de respuesta
 resource_fields = api.model('Resource', {
